@@ -2,9 +2,6 @@ import numpy
 import os
 import cv2
 import random
-import tensorflow
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
 from matplotlib import pyplot
 from tqdm import tqdm
 import pickle

@@ -1,5 +1,4 @@
 import numpy
-import os
 import cv2
 import random
 import tensorflow
@@ -18,26 +17,24 @@ y = pickle.load(pickle_in)
 pickle_in.close()
 
 y = numpy.array(y) 
-x = numpy.array(x).reshape(-1, 32, 32, 2)
+x = numpy.array(x).reshape(-1, 32, 32, 3) # -1 is batch size # 105
 x = x/255
 
 
 model = Sequential()
-# Note the input shape is the desired size of the image 200x200 with 3 bytes color
-# This is the first convolution
-model.add(Conv2D(2, 3, activation='relu', input_shape=x[1:])
+model.add(Conv2D(52 , (3,3), activation='relu', input_shape=x.shape[1:]))
 model.add(MaxPooling2D(2, 2))
 # The second convolution
-model.add(Conv2D(32, (3,3), activation='relu'))
+model.add(Conv2D(52 , (3,3), activation='relu'))
 model.add(MaxPooling2D(2,2))
 # The third convolution
-model.add(Conv2D(64, (3,3), activation='relu'))
+model.add(Conv2D(52 , (3,3), activation='relu'))
 model.add(MaxPooling2D(2,2))
 # The fourth convolution
-model.add(Conv2D(64, (3,3), activation='relu'))
+model.add(Conv2D(52 , (3,3), activation='relu'))
 model.add(MaxPooling2D(2,2))
 # # The fifth convolution
-model.add(Conv2D(64, (3,3), activation='relu'))
+model.add(Conv2D(52 , (3,3), activation='relu'))
 model.add(MaxPooling2D(2,2))
 # Flatten the results to feed into a DNN
 model.add(Flatten())
@@ -51,18 +48,18 @@ model.compile(loss='binary_crossentropy',
 
 print(model.summary())
 
-history = model.fit(x, y, batch_size=8, epochs=32, validation_split=0.3)
-history_dict = history.history
-loss_values = history_dict['loss']
+# history = model.fit(x, y, batch_size=8, epochs=32, validation_split=0.3)
+# history_dict = history.history
+# loss_values = history_dict['loss']
 
 
-epochs = range(1, len(history_dict['accuracy']) + 1)
+# epochs = range(1, len(history_dict['accuracy']) + 1)
 
-pyplot.plot(epochs, loss_values, 'bo', label='Training loss')
+# pyplot.plot(epochs, loss_values, 'bo', label='Training loss')
 
-pyplot.title('Training and validation loss')
-pyplot.xlabel('Epochs')
-pyplot.ylabel('Loss')
-pyplot.legend()
+# pyplot.title('Training and validation loss')
+# pyplot.xlabel('Epochs')
+# pyplot.ylabel('Loss')
+# pyplot.legend()
 
-pyplot.show()
+# pyplot.show()
