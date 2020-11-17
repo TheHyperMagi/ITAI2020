@@ -16,7 +16,7 @@ data_dir = 'images'
 
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
   data_dir,
-  validation_split=0.2,
+  validation_split=0.5,
   subset="training",
   seed=123,
   image_size=(img_height, img_width),
@@ -24,7 +24,7 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
 
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
   data_dir,
-  validation_split=0.2,
+  validation_split=0.5,
   subset="validation",
   seed=123,
   image_size=(img_height, img_width),
@@ -94,3 +94,14 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
+
+
+class_names = train_dataset.class_names
+
+plt.figure(figsize=(10, 10))
+for images, labels in train_dataset.take(1):
+  for i in range(9):
+    ax = plt.subplot(3, 3, i + 1)
+    plt.imshow(images[i].numpy().astype("uint8"))
+    plt.title(class_names[labels[i]])
+    plt.axis("off")
