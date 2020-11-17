@@ -27,8 +27,8 @@ for label in classes:
     label_folder = os.path.join('images', label)
     class_num = classes.index(label)
     for image in tqdm(os.listdir(label_folder)):
-        # read the image from the path and change the color space to grayscale and then resize it 
-        image_array = resize(imread(os.path.join(label_folder, image), IMREAD_GRAYSCALE), (image_resize_size, image_resize_size))
+        # read the image from the path and then resize it 
+        image_array = resize(imread(os.path.join(label_folder, image)), (image_resize_size, image_resize_size))
         training_data.append([image_array, class_num])
 
 shuffle(training_data)
@@ -42,10 +42,15 @@ for features, label in training_data:
 
 # change the list to an numpy array
 # -1 is w/e the first value is, the 2nd and 3rd values is the shape of those two arrays, the last value is the color space
-x = array(x).reshape(-1, image_resize_size, image_resize_size, 1) 
+x = array(x).reshape(-1, image_resize_size, image_resize_size, 3) 
+y = array(y)
 
 # the numpy array object is stored in a file called features with no extension
-pickle.dump(x, open("features", "wb"))
+po = open("features", "wb")
+pickle.dump(x, po)
+po.close
 
 # the labels list object is also stored in a file
-pickle.dump(y, open("labels", "wb"))
+po = open("labels", "wb")
+pickle.dump(y, po)
+po.close()
