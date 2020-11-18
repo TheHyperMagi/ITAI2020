@@ -1,4 +1,3 @@
-import os
 import numpy
 from pickle import load
 
@@ -64,6 +63,5 @@ model.fit(x, y, batch_size=32, epochs=10, validation_split=0.2)
 loss, acc = model.evaluate(x, y, verbose=2)
 print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
 
-print(model.predict(x[0]))
-
+# print(model.predict(x))
 model.save('cnn_model.h5')
