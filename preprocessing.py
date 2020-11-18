@@ -1,8 +1,8 @@
 import os
 import pickle
 
-# resize, read and convert to grayscale for an image.
-from cv2 import resize, imread, IMREAD_GRAYSCALE
+# resize, read and convert to 3 channel BGR color image
+from cv2 import resize, imread, IMREAD_COLOR
 
 #just to store the image data in numpy array form when read back using pickle
 from numpy import array, shape
@@ -28,7 +28,7 @@ for label in classes:
     class_num = classes.index(label)
     for image in tqdm(os.listdir(label_folder)):
         # read the image from the path and then resize it 
-        image_array = resize(imread(os.path.join(label_folder, image)), (image_resize_size, image_resize_size))
+        image_array = resize(imread(os.path.join(label_folder, image), cv2.IMREAD_COLOR), (image_resize_size, image_resize_size))
         training_data.append([image_array, class_num])
 
 shuffle(training_data)
