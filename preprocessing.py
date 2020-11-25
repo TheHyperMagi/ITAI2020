@@ -13,6 +13,9 @@ from tqdm import tqdm
 # to shuffle the data so it won't be classes right next to each other
 from random import shuffle
 
+# splitting the training data into seperate
+from sklearn.model_selection import train_test_split
+
 #CONSTANT for all images in the dataset
 image_resize_size = 256
 
@@ -28,13 +31,14 @@ for label in classes:
     class_num = classes.index(label)
     for image in tqdm(os.listdir(label_folder)):
         # read the image from the path and then resize it 
-        image_array = resize(imread(os.path.join(label_folder, image), cv2.IMREAD_COLOR), (image_resize_size, image_resize_size))
+        image_array = resize(imread(os.path.join(label_folder, image), IMREAD_COLOR), (image_resize_size, image_resize_size))
         training_data.append([image_array, class_num])
 
 shuffle(training_data)
 
 x = []
 y = []
+
 
 for features, label in training_data:
     x.append(features)
@@ -45,12 +49,22 @@ for features, label in training_data:
 x = array(x).reshape(-1, image_resize_size, image_resize_size, 3) 
 y = array(y)
 
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2)
+
 # the numpy array object is stored in a file called features with no extension
-po = open("features", "wb")
-pickle.dump(x, po)
+po = open("training/features", "wb")
+pickle.dump(x_train, po)
 po.close
 
 # the labels list object is also stored in a file
-po = open("labels", "wb")
-pickle.dump(y, po)
+po = open("training/labels", "wb")
+pickle.dump(y_train, po)
+po.close()
+
+po = open("testing/features", "wb")
+pickle.dump(x_test, po)
+po.close()
+
+po = open("testing/labels", "wb")
+pickle.dump(y_test, po)
 po.close()
